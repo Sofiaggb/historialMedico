@@ -2,7 +2,7 @@ from sqlalchemy import create_engine   #Motor de conexión
 from sqlalchemy.ext.declarative import declarative_base    #Para heredar la clase Base
 from sqlalchemy.orm import sessionmaker    #Para establecer la sesión de creación
 
-cadena_conexion = "mysql+pymysql://fastapi:123456@localhost:3306/agenda"
+cadena_conexion = "mysql+pymysql://root:@localhost:3306/farmacos"
 '''
     Primer parámetro: Tipo de conexión y conector
     Segundo parámetro: Nombre de usuario BD
@@ -17,3 +17,11 @@ sesionLocal = sessionmaker(autocommit=False, autoflush=False, bind=motor)
 #Se crea la sesión que va a efectuar las operaciones sobre la BD, a través de la conexión creada por engine
 
 Base = declarative_base()   #Se crea la clase Base para mapear la BD
+
+#Esta función va a permitir el enlace entre el modelo de BD y las rutas, a través de una relación de dependencia
+def get_db():
+    db = sesionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
