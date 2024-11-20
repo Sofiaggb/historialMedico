@@ -1,5 +1,6 @@
 from fastapi_offline import FastAPIOffline 
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from config.config import motor
 from models import models
 from routes.routesTipo import tipos
@@ -36,12 +37,3 @@ def index():
 # Incluye el router de farmacos y tipos en la aplicación principal
 app.include_router(tipos)
 app.include_router(farmacos)
-
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-
-app = FastAPI()
-
-# ... FastAPI routes ...
-
-# app.mount("/", StaticFiles(directory="static", html=True), name="static")
