@@ -8,7 +8,7 @@ class Agenda(Base):
     nombre = Column(String(70), nullable=False)
     telefono = Column(String(20), nullable=False)
     correo = Column(String(100), nullable=False)
-
+ 
 class Tipo(Base):
      __tablename__ = 'tipo' 
      id_tipo = Column(Integer, primary_key=True, autoincrement=True) 
