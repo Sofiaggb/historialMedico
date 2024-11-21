@@ -1,13 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from config.config import Base
-
-class Agenda(Base):
-    __tablename__ = 'contactos'
-    codigo = Column(Integer, primary_key=True, index=True)
-    nombre = Column(String(70), nullable=False)
-    telefono = Column(String(20), nullable=False)
-    correo = Column(String(100), nullable=False)
  
 class Tipo(Base):
      __tablename__ = 'tipo' 

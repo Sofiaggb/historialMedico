@@ -1,9 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FarmacosPage from "./pages/FarmacosPage";
-// import TiposPage from "../pages/TiposPage";
-// import EditFarmacoPage from "../pages/EditFarmacoPage";
+import TiposView from "./pages/TiposView";
+import FormFarmaco from "./pages/FormFarmaco";
 // import EditTipoPage from "../pages/EditTipoPage";
-// import CreateFarmacoPage from "../pages/CreateFarmacoPage";
 // import CreateTipoPage from "../pages/CreateTipoPage";
 // import NotFoundPage from "../pages/NotFoundPage";
 
@@ -17,18 +16,18 @@ const router = createBrowserRouter([
     path: "/farmacos",
     element: <FarmacosPage />,
   },
-//   {
-//     path: "/farmacos/create",
-//     element: <CreateFarmacoPage />,
-//   },
-//   {
-//     path: "/farmacos/edit/:id",
-//     element: <EditFarmacoPage />,
-//   },
-//   {
-//     path: "/tipos",
-//     element: <TiposPage />,
-//   },
+  {
+    path: "/farmacos/create",
+    element: <FormFarmaco />,
+  },
+  {
+    path: "/farmacos/edit/:id",
+    element: <FormFarmaco />,
+  },
+  {
+    path: "/tipos",
+    element: <TiposView />,
+  },
 //   {
 //     path: "/tipos/create",
 //     element: <CreateTipoPage />,

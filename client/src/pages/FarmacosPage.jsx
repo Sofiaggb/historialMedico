@@ -1,11 +1,12 @@
 import  { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getFarmacos, deleteFarmaco } from "../api/ApiFarmacos"; // Importar funciones de la API
+import { getTipoById } from "../api/ApiTipos";
 
 const FarmacosPage = () => {
   const [farmacos, setFarmacos] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   // Función para cargar los fármacos
   const fetchFarmacos = async () => {
     try {
@@ -18,6 +19,18 @@ const FarmacosPage = () => {
       setLoading(false);
     }
   };
+
+    // Función para obtener el tipo de fármaco por id
+    // const obtenerTipo = async (id_tipo) => {
+    //   try {
+    //     const tipoRes = await getTipoById(id_tipo);
+    //     setTipo(tipoRes.descripcion)
+    //     // return tipo.descripcion; // Suponiendo que la respuesta es un objeto con la propiedad 'descripcion'
+    //   } catch (error) {
+    //     console.error("Error al obtener el tipo:", error);
+    //     return "Tipo no encontrado"; // Valor predeterminado si ocurre un error
+    //   }
+    // };
 
   // Función para eliminar un fármaco
   const handleDelete = async (id) => {
@@ -81,7 +94,11 @@ const FarmacosPage = () => {
                 <td className="border border-gray-200 px-4 py-2">{farmaco.fecha_elaboracion}</td>
                 <td className="border border-gray-200 px-4 py-2">{farmaco.principio_activo}</td>
                 <td className="border border-gray-200 px-4 py-2">{farmaco.miligramos} mg</td>
-                <td className="border border-gray-200 px-4 py-2">{farmaco.id_tipo}</td>
+                <td className="border border-gray-200 px-4 py-2"> 
+                  {/* Renderizar el tipo de fármaco usando la función async */}
+                  <TipoAsync tipoId={farmaco.id_tipo} />
+                  {/* {obtenerTipo(farmaco.id_tipo)} */}
+                </td>
                 <td className="border border-gray-200 px-4 py-2 space-x-2">
                   <Link
                     to={`/farmacos/edit/${farmaco.id}`}
@@ -105,4 +122,22 @@ const FarmacosPage = () => {
   );
 };
 
+// Componente para mostrar el tipo de fármaco de manera asíncrona
+const TipoAsync = ({ tipoId }) => {
+  const [tipo, setTipo] = useState(null);
+
+  useEffect(() => {
+    const fetchTipo = async () => {
+      const tipoData = await getTipoById(tipoId);
+      setTipo(tipoData.descripcion); // Asumiendo que getTipoById devuelve un objeto con la propiedad 'descripcion'
+    };
+
+    fetchTipo();
+  }, [tipoId]);
+
+  return tipo ? <span>{tipo}</span> : <span>Cargando tipo...</span>;
+};
+
 export default FarmacosPage;
+
+
