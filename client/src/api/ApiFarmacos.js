@@ -19,13 +19,13 @@ export const getFarmacoById = async (id) => {
 
 // Crear un nuevo fármaco
 export const createFarmaco = async (farmacoData) => {
-  const response = await api.post("/farmacos", farmacoData);
+  const response = await api.post("/save-farmacos", farmacoData);
   return response.data.farmaco;
 };
 
 // Actualizar un fármaco existente
 export const updateFarmaco = async (id, farmacoData) => {
-  const response = await api.put(`/farmacos/${id}`, farmacoData);
+  const response = await api.put(`/update-farmacos/${id}`, farmacoData);
   return response.data.farmaco;
 };
 

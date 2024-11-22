@@ -20,17 +20,6 @@ const FarmacosPage = () => {
     }
   };
 
-    // Función para obtener el tipo de fármaco por id
-    // const obtenerTipo = async (id_tipo) => {
-    //   try {
-    //     const tipoRes = await getTipoById(id_tipo);
-    //     setTipo(tipoRes.descripcion)
-    //     // return tipo.descripcion; // Suponiendo que la respuesta es un objeto con la propiedad 'descripcion'
-    //   } catch (error) {
-    //     console.error("Error al obtener el tipo:", error);
-    //     return "Tipo no encontrado"; // Valor predeterminado si ocurre un error
-    //   }
-    // };
 
   // Función para eliminar un fármaco
   const handleDelete = async (id) => {

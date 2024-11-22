@@ -27,7 +27,7 @@ def get_farmaco(id: int, db: Session = Depends(get_db)):
         'farmaco': farmaco
     }
 
-@farmacos.post('/farmacos', response_model=FarmacoResponse, status_code=status.HTTP_201_CREATED)
+@farmacos.post('/save-farmacos', response_model=FarmacoResponse, status_code=status.HTTP_201_CREATED)
 def create_farmaco(farmaco_data: FarmacoBase, db: Session = Depends(get_db)):
     nuevo_farmaco = crear_farmaco(farmaco_data, db)
     return {
@@ -35,7 +35,7 @@ def create_farmaco(farmaco_data: FarmacoBase, db: Session = Depends(get_db)):
         'farmaco': nuevo_farmaco
     }
 
-@farmacos.put('/farmacos/{id}', response_model=FarmacoResponse, status_code=status.HTTP_200_OK)
+@farmacos.put('/update-farmacos/{id}', response_model=FarmacoResponse, status_code=status.HTTP_200_OK)
 def update_farmaco(id: int, farmaco_data: FarmacoBase, db: Session = Depends(get_db)):
     farmaco_actualizado = actualizar_farmaco(id, farmaco_data, db)
     if not farmaco_actualizado:
