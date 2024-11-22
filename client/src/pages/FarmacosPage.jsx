@@ -2,11 +2,15 @@ import  { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getFarmacos, deleteFarmaco } from "../api/ApiFarmacos"; // Importar funciones de la API
 import { getTipoById } from "../api/ApiTipos";
+import Swal from 'sweetalert2';
+import TiposView from "./TiposView";
 
 const FarmacosPage = () => {
   const [farmacos, setFarmacos] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+  const [mostrarTipos, setMostrarTipos] = useState(false); // Estado para mostrar el panel de Tipos
+
+
   // Función para cargar los fármacos
   const fetchFarmacos = async () => {
     try {
@@ -23,18 +27,37 @@ const FarmacosPage = () => {
 
   // Función para eliminar un fármaco
   const handleDelete = async (id) => {
-    const confirm = window.confirm("¿Estás seguro de que deseas eliminar este fármaco?");
-    if (!confirm) return;
-
-    try {
-      await deleteFarmaco(id); // Llamada a la API
-      setFarmacos(farmacos.filter((farmaco) => farmaco.id !== id)); // Actualizar la lista
-      alert("Fármaco eliminado con éxito.");
-    } catch (error) {
-      console.error("Error al eliminar el fármaco:", error);
-      alert("No se pudo eliminar el fármaco.");
-    }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteFarmaco(id); // Llamada a la API
+          setFarmacos(farmacos.filter((farmaco) => farmaco.id !== id)); // Actualizar la lista
+          Swal.fire(
+            '¡Eliminado!',
+            'El fármaco ha sido eliminado con éxito.',
+            'success'
+          );
+        } catch (error) {
+          console.error("Error al eliminar el fármaco:", error);
+          Swal.fire(
+            'Error',
+            'No se pudo eliminar el fármaco.',
+            'error'
+          );
+        }
+      }
+    });
   };
+  
 
   useEffect(() => {
     fetchFarmacos();
@@ -47,19 +70,31 @@ const FarmacosPage = () => {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Gestión de Fármacos</h1>
-      <div className="flex justify-between mb-6">
+      <div className="flex space-x-4 m-6">
         <Link
           to="/farmacos/create"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="group relative inline-block text-sm font-medium text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
-          Crear Fármaco
+          <span
+            className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-indigo-600 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"
+          ></span>
+
+          <span className="relative block border border-current bg-white px-8 py-3"> Crear Fármaco </span>
         </Link>
-        <Link
-          to="/tipos"
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+        
+
+        <button
+          onClick={() => setMostrarTipos(true)} // Mostrar el panel de Tipos
+          className="group relative inline-block text-sm font-medium text-emerald-600 focus:outline-none 
+          focus:ring active:text-indigo-500"
         >
-          Ver Tipos
-        </Link>
+          <span
+            className="absolute inset-0 translate-x-0.5 translate-y-0.5 bg-emerald-600 transition-transform 
+            group-hover:translate-x-0 group-hover:translate-y-0"
+          ></span>
+
+          <span className="relative block border border-current bg-white px-8 py-3">Ver Tipos </span>
+        </button>
       </div>
 
       <div className="overflow-x-auto">
@@ -91,12 +126,14 @@ const FarmacosPage = () => {
                 <td className="border border-gray-200 px-4 py-2 space-x-2">
                   <Link
                     to={`/farmacos/edit/${farmaco.id}`}
-                    className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                    className="rounded-full py-2 px-4 border-2 border-yellow-500 text-yellow-500
+                     hover:bg-yellow-500 hover:text-gray-100 focus:outline-none"
                   >
                     Editar
                   </Link>
                   <button
-                    className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                    className="rounded-full py-2 px-4 border-2 border-red-500 text-red-500
+                     hover:bg-red-500 hover:text-gray-100 focus:outline-none"
                     onClick={() => handleDelete(farmaco.id)}
                   >
                     Eliminar
@@ -107,6 +144,10 @@ const FarmacosPage = () => {
           </tbody>
         </table>
       </div>
+
+      {mostrarTipos && (
+        <TiposView onClose={() => setMostrarTipos(false)} />
+      )}
     </div>
   );
 };

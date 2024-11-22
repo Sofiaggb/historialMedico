@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getTipos, deleteTipo, updateTipo, createTipo } from "../api/ApiTipos";
+import Swal from 'sweetalert2';
 import FormTipo from "./FormTipo";
 
-const TiposView = () => {
+const TiposView = ({ onClose }) => {
+  const [loading, setLoading] = useState(true);
   const [tipos, setTipos] = useState([]);
   const [error, setError] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -18,6 +20,8 @@ const TiposView = () => {
       } catch (err) {
         setError("Error al cargar los tipos.");
         console.error(err);
+      }finally { 
+        setLoading(false);
       }
     };
 
@@ -26,16 +30,38 @@ const TiposView = () => {
 
   // Manejar eliminación de un tipo
   const handleEliminar = async (id_tipo) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este tipo?")) {
-      try {
-        await deleteTipo(id_tipo);
-        setTipos(tipos.filter((tipo) => tipo.id_tipo !== id_tipo));
-      } catch (err) {
-        setError("Error al eliminar el tipo.");
-        console.error(err);
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo!',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteTipo(id_tipo);
+          setTipos(tipos.filter((tipo) => tipo.id_tipo !== id_tipo));
+          Swal.fire(
+            '¡Eliminado!',
+            'El tipo ha sido eliminado.',
+            'success'
+          );
+        } catch (err) {
+          setError("Error al eliminar el tipo.");
+          console.error(err);
+          Swal.fire(
+            'Error',
+            'Hubo un problema al eliminar el tipo.',
+            'error'
+          );
+        }
       }
-    }
+    });
   };
+  
 
   // Abrir formulario para agregar tipo
   const handleAgregar = () => {
@@ -77,9 +103,17 @@ const TiposView = () => {
     }
   };
 
+
+
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Tipos de Fármacos</h1>
+    <div className="fixed inset-y-0  left-0 w-1/3 bg-white shadow-lg p-6 z-50">
+        <button
+          onClick={onClose}
+          className="text-gray-500 hover:text-gray-800 absolute top-4 right-4"
+        >
+          ✖
+        </button>
+        <h2 className="text-2xl font-bold mb-6">Tipos de Fármacos</h2>
       {error && <p className="text-red-500 text-center">{error}</p>}
 
       {/* Botón para agregar tipo */}
@@ -92,31 +126,41 @@ const TiposView = () => {
         </button>
       </div>
 
-      {/* Lista de tipos */}
-      <ul className="bg-white shadow rounded-lg divide-y divide-gray-200">
-        {tipos.map((tipo) => (
-          <li
-            key={tipo.id_tipo}
-            className="p-4 flex justify-between items-center"
-          >
-            <span className="text-gray-800 font-medium">{tipo.descripcion}</span>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => handleEditar(tipo)}
-                className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => handleEliminar(tipo.id_tipo)}
-                className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Eliminar
-              </button>
+      { loading ? 
+          <p className="text-center mt-10">Cargando Tipos...</p>
+          :(
+            <div>
+              {/* Lista de tipos */}
+              <ul className="bg-white shadow rounded-lg divide-y divide-gray-200">
+              {tipos.map((tipo) => (
+                <li
+                  key={tipo.id_tipo}
+                  className="p-4 flex justify-between items-center"
+                >
+                  <span className="text-gray-800 font-medium">{tipo.descripcion}</span>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEditar(tipo)}
+                      className="rounded-full py-2 px-4 border-2 border-yellow-500 text-yellow-500
+                     hover:bg-yellow-500 hover:text-gray-100 focus:outline-none"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleEliminar(tipo.id_tipo)}
+                      className="rounded-full py-2 px-4 border-2 border-red-500 text-red-500
+                     hover:bg-red-500 hover:text-gray-100 focus:outline-none"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </li>
+              ))}
+              </ul>
             </div>
-          </li>
-        ))}
-      </ul>
+          )}
+
+     
 
       {/* Formulario de agregar/editar */}
       {mostrarModal && (
