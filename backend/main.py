@@ -3,8 +3,8 @@ from fastapi_offline import FastAPIOffline
 from starlette.middleware.cors import CORSMiddleware
 from config.config import motor
 from models import models
-from routes.routesTipo import tipos
-from routes.routesFarmaco import farmacos
+from routes.routesDiagnostico import diagnosticos
+from routes.routesPacientes import pacientes
 
 
 #Ejecutar la creación del modelo en la BD
@@ -35,5 +35,5 @@ def index():
     return {'mensaje': 'FastAPI funcionando'}
 
 # Incluye el router de farmacos y tipos en la aplicación principal
-app.include_router(tipos)
-app.include_router(farmacos)
+app.include_router(diagnosticos)
+app.include_router(pacientes)

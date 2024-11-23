@@ -2,7 +2,7 @@ from sqlalchemy import create_engine   #Motor de conexión
 from sqlalchemy.ext.declarative import declarative_base    #Para heredar la clase Base
 from sqlalchemy.orm import sessionmaker    #Para establecer la sesión de creación
 
-cadena_conexion = "mysql+pymysql://root:@localhost:3306/farmacos"
+cadena_conexion = "mysql+pymysql://root:@localhost:3306/historial_medico"
 '''
     Primer parámetro: Tipo de conexión y conector
     Segundo parámetro: Nombre de usuario BD
