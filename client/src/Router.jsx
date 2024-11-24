@@ -1,25 +1,30 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import FarmacosPage from "./pages/FarmacosPage";
-import FormFarmaco from "./pages/FormFarmaco";
+import PacientePage from "./pages/PacientePage";
+import FormPaciente from "./pages/FormPaciente";
+import DiagnosticosPage from "./pages/DiagnosticosPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 // Definir rutas
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <FarmacosPage />, // Página por defecto
+    element: <PacientePage />, // Página por defecto
   },
   {
-    path: "/farmacos",
-    element: <FarmacosPage />,
+    path: "/paciente",
+    element: <PacientePage />,
   },
   {
-    path: "/farmacos/create",
-    element: <FormFarmaco />,
+    path: "/diagnosticos",
+    element: <DiagnosticosPage />,
   },
   {
-    path: "/farmacos/edit/:id",
-    element: <FormFarmaco />,
+    path: "/paciente/create",
+    element: <FormPaciente />,
+  },
+  {
+    path: "/paciente/edit/:id",
+    element: <FormPaciente />,
   },
   {
     path: "*", // Página para rutas no encontradas

@@ -1,21 +1,17 @@
 from fastapi_offline import FastAPIOffline 
-# from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.cors import CORSMiddleware
 from config.config import motor
 from models import models
 from routes.routesDiagnostico import diagnosticos
 from routes.routesPacientes import pacientes
 
-
 #Ejecutar la creación del modelo en la BD
 models.Base.metadata.create_all(bind=motor)
 
 app = FastAPIOffline(
-    title = 'Proyecto para administrar farmacos',
+    title = 'Proyecto para administrar pacientes con un diagnostico',
     description = 'Acreditable II',
     version = '1.0')
-
-
 
 origins = [
     "http://localhost:5173"  # Tu front-end
