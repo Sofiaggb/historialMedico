@@ -145,7 +145,7 @@ const DiagnosticosPage  = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-200 px-4 py-2">Descripción</th>
-              <th className="border border-gray-200 px-4 py-2">Acciones</th>
+              <th className="border border-gray-200 px-4 py-2">Operacione</th>
             </tr>
           </thead>
 
