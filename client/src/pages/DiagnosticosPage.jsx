@@ -128,7 +128,7 @@ const DiagnosticosPage  = () => {
   return (
     <div className=" m-12 w-4/5 flex justify-center bg-white">
        <div>
-        <h2 className="text-4xl font-bold mb-6 text-center">Diagnósticos</h2>
+        <h2 className="text-4xl font-bold mb-6 text-center">Listado de Diagnósticos</h2>
 
       {/* Botón para agregar diagnostico */}
       <div className=" flex justify-center m-4">
@@ -141,35 +141,45 @@ const DiagnosticosPage  = () => {
         
       </div>
 
+      <table className="table-auto w-full border-collapse border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-200 px-4 py-2">Descripción</th>
+              <th className="border border-gray-200 px-4 py-2">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
       { loading ? 
           <p className="text-center mt-10">Cargando Diagnósticos...</p>
           :(
-            <div>
-              {/* Lista de tipos */}
-              <ul className="bg-white shadow rounded-lg divide-y divide-gray-200">
-              {diagnosticos.map((diagnostico) => (
-                <li
-                  key={diagnostico.id}
-                  className="p-4 flex justify-between items-center"
-                >
-                  <span className="text-gray-800 px-6 font-medium">{diagnostico.descripcion}</span>
-                  <div className="flex space-x-2">
+              diagnosticos.map((diagnostico) => (
+                <tr key={diagnostico.id} className="text-center">
+                <td className="border border-gray-200 px-4 py-2">{diagnostico.descripcion}</td>
+                <td className="border border-gray-200 px-4 py-2 space-x-2">
                     <button
                       onClick={() => handleEditar(diagnostico)}
-                      className="rounded-md py-2 px-4 text-blue-900 bg-blue-300 hover:bg-blue-400  focus:outline-none"
+                      className="rounded-md py-2 px-4 text-blue-900 bg-blue-300 hover:bg-blue-400 
+                       focus:outline-none"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => handleEliminar(diagnostico.id)}
-                      className="rounded-md py-2 px-4 text-gray-100 bg-red-500 hover:bg-red-600 focus:outline-none"
+                      className="rounded-md py-2 px-4 text-gray-100 bg-red-500 hover:bg-red-600
+                       focus:outline-none"
                     >
                       Eliminar
                     </button>
-                  </div>
-                </li>
-              ))}
-              </ul>
+                  </td>
+              </tr>
+
+              ))
+             
+          )}
+            </tbody>
+            </table>
+              
               <div className=" items-center flex justify-center">
               <button
                 type="button"
@@ -179,9 +189,6 @@ const DiagnosticosPage  = () => {
                 Volver
               </button>
               </div>
-            </div>
-          )}
-
      
 
       {/* Formulario de agregar/editar */}
