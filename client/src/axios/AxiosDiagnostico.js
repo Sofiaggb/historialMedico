@@ -8,19 +8,19 @@ const api = axios.create({
 // Obtener todos los diagnosticos
 export const getDiagnosticos = async () => {
   const response = await api.get("/diagnosticos");
-  return response.data.diagnosticos; // Regresa la lista de tipos
+  return response.data.diagnosticos; // Regresa la lista de diagnosticos
 };
 
 // Obtener un diagnostico por ID
 export const getDiagnosticoById = async (id) => {
   const response = await api.get(`/diagnosticos/${id}`);
-  return response.data.diagnostico; // Regresa el tipo especificado
+  return response.data.diagnostico; // Regresa el diagnostico especificado
 };
 
 // Crear un nuevo diagnostico
 export const createDiagnostico = async (diagnosticoData) => {
   const response = await api.post("/diagnosticos", diagnosticoData);
-  return response.data.diagnostico; // Regresa el tipo creado
+  return response.data.diagnostico; // Regresa el diagnostico creado
 };
 
 // Actualizar un diagnostico existente
