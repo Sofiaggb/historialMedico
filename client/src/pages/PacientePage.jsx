@@ -8,7 +8,7 @@ const PacientePage = () => {
   const [pacientes, setPacientes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Función para cargar los fármacos
+  // Función para cargar los pacientes
   const fetchPacientes = async () => {
     try {
       const pacientesData = await getPacientes();
@@ -110,7 +110,7 @@ const PacientePage = () => {
                 <td className="border border-gray-200 px-4 py-2">{paciente.fecha_ingreso}</td>
                 <td className="border border-gray-200 px-4 py-2">{paciente.peso} kg</td>
                 <td className="border border-gray-200 px-4 py-2"> 
-                  {/* Renderizar el tipo de fármaco usando la función async */}
+                  {/* Renderizar el diagnostico de paciente usando la función async */}
                   <DiagnosticoAsync diagnosticoId={paciente.id_diagnostico} />
                 </td>
                 <td className="border border-gray-200 px-4 py-2 space-x-2">
@@ -144,7 +144,7 @@ const DiagnosticoAsync = ({ diagnosticoId }) => {
   useEffect(() => {
     const fetchDiagnostico = async () => {
       const diagnosticoData = await getDiagnosticoById(diagnosticoId);
-      setDiagnostico(diagnosticoData.descripcion); // Asumiendo que getTipoById devuelve un objeto con la propiedad 'descripcion'
+      setDiagnostico(diagnosticoData.descripcion); 
     };
 
     fetchDiagnostico();

@@ -30,6 +30,6 @@ app.add_middleware(
 def index():
     return {'mensaje': 'FastAPI funcionando'}
 
-# Incluye el router de farmacos y tipos en la aplicación principal
+# Incluye el router de pacientes y diagnostico en la aplicación principal
 app.include_router(diagnosticos)
 app.include_router(pacientes)

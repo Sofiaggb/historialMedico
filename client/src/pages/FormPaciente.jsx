@@ -40,7 +40,7 @@ const FormPaciente = () => {
             id_diagnostico: PacientesData.id_diagnostico,
           }); // Actualizar el estado del formulario con los datos del paciente
         } catch (error) {
-          console.error("Error al obtener fármaco:", error); // Manejo de errores
+          console.error("Error al obtener paciente:", error); // Manejo de errores
         }
       }
     };

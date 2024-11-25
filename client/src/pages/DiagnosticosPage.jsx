@@ -9,7 +9,7 @@ const DiagnosticosPage  = () => {
   const [loading, setLoading] = useState(true);
   const [diagnosticos, setDiagnosticos] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [diagnosticoSeleccionado, setDiagnosticoSeleccionado] = useState(null); // Tipo en edición
+  const [diagnosticoSeleccionado, setDiagnosticoSeleccionado] = useState(null); // diagnostico en edición
   const [descripcion, setDescripcion] = useState("");
 
   // Obtener todos los diagnosticos al cargar el componente
@@ -88,7 +88,7 @@ const DiagnosticosPage  = () => {
     e.preventDefault();
     try {
       if (diagnosticoSeleccionado) {
-        // Editar tipo
+        // Editar diagnostico
         const diagnosticoActualizado = await updateDiagnostico(diagnosticoSeleccionado.id, {
           descripcion,
         });
@@ -103,7 +103,7 @@ const DiagnosticosPage  = () => {
           icon: 'success' 
         });
       } else {
-        // Crear tipo
+        // Crear diagnostico
         const nuevoDiagnostico = await createDiagnostico({ descripcion });
         setDiagnosticos([...diagnosticos, nuevoDiagnostico]);
         Swal.fire({ 
